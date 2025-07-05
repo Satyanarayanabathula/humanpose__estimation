@@ -1,0 +1,5 @@
+public class main{
+public Static void main(string args[]){
+    System.out.print("ram")
+}
+}

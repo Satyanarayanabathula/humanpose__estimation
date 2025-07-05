@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pose Estimation App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #2c3e50; /* Dark background color */
+            color: white; /* Adjusting text color to contrast with the dark background */
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        h1 {
+            color: #ecf0f1; /* Lighter text color for the title */
+            margin-top: 20px;
+            animation: slideIn 1s ease-out;
+        }
+        .upload-section, .camera-controls {
+            margin: 20px;
+            background-color: #34495e; /* Darker shade for sections */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 1s ease-out;
+        }
+        .image-preview {
+            margin-top: 20px;
+            background-color: #34495e; /* Same dark color as upload section */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in;
+        }
+        img {
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            transition: transform 0.3s ease-in-out;
+        }
+        img:hover {
+            transform: scale(1.05);
+        }
+        .video-frame {
+            margin-top: 40px;
+            background-color: #34495e; /* Same dark color as upload section */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 2s ease-in-out;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            animation: bounceIn 1s ease-out;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>📸 Human Pose Estimation</h1>
+
+    <div class="upload-section">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <button type="submit">Upload & Estimate Pose</button>
+        </form>
+    </div>
+
+    {% if uploaded_image %}
+    <div class="image-preview">
+        <h2>🖼️ Annotated Image</h2>
+        <img src="{{ uploaded_image }}" alt="Pose Estimated Image">
+    </div>
+    {% endif %}
+
+    <div class="camera-controls">
+        <form action="/start_camera" method="post" style="display: inline;">
+            <button type="submit">▶️ Start Camera</button>
+        </form>
+        <form action="/stop_camera" method="post" style="display: inline;">
+            <button type="submit">⏹️ Stop Camera</button>
+        </form>
+    </div>
+
+    {% if camera_on %}
+    <div class="video-frame">
+        <h2>🎥 Live Webcam Pose Estimation</h2>
+        <img src="/video_feed" width="640" height="480">
+    </div>
+    {% endif %}
+
+</body>
+</html>
